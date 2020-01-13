@@ -1,0 +1,116 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <style>
+
+  @font-face {
+    font-family: "Calibri";
+    src: url("{{ BASE_DIR }}/clientele/pdf_fonts/calibri.ttf");
+  }
+
+  @font-face {
+    font-family: "Times New Roman";
+    src: url("{{ BASE_DIR }}/clientele/pdf_fonts/times.ttf");
+  }
+
+  @font-face {
+    font-family: "Times New Roman Bold";
+    src: url("{{ BASE_DIR }}/clientele/pdf_fonts/timesbd.ttf");
+  }
+  body {
+    font-family: "Times New Roman";
+  }
+
+  .wrapper img {
+  	height: 2.04cm;
+  	width: 3.93cm;
+  }
+
+  h1 {
+	font-family: "Times New Roman Bold";
+  	color: rgb(0, 0, 128);
+  	font-size: 12pt;
+  	text-align: center;
+  }
+
+  .header12 {
+		font-family: "Calibri";
+  	font-size: 12pt;
+		text-align: center;
+  }
+
+  .header10 {
+		font-family: "Calibri";
+  	font-size: 10pt;
+		text-align: center;
+  }
+
+  .header9 {
+		font-family: "Calibri";
+  	font-size: 9pt;
+		text-align: center;
+  }
+
+  .underline {
+		font-family: "Times New Roman Bold";
+  	display: inline;
+  }
+
+	.body p {
+  	font-size: 12pt;
+  }
+
+  .details {
+ 		text-align: justify;
+  	text-indent: 25px;
+  }
+
+  </style>
+</head>
+<body>
+
+	<div class="wrapper">
+		<table>
+			<tr>
+		      <td><img src="{{ BASE_DIR }}/clientele/images/logo.png" /></td>
+		      <td>Επωνυμία</td>
+			</tr>
+		</table><br/>
+
+		<div class="body">
+			<h1>ΤΕΧΝΙΚΗ ΕΚΘΕΣΗ No {{ tech_report_id }} / {% now "Y" %}</h1>
+
+			<p class="underline" style="margin-bottom: 0px;"><u>ΠΡΟΣ</u>: {{ last_name }}</p>
+			<p style="text-indent: 75px; margin: 0px;">{{ first_name }}</p>
+			<p style="text-indent: 50px; text-decoration: underline; margin: 0px;">Υπ’ όψιν Υπευθύνου Πληροφορικής</p>
+			<p style="margin-bottom: 0px;">Κύριοι,</p>
+			<p class="details" style="margin-top: 0px;">
+				Σύμφωνα με το ΔΤΥ υπ.’ Αριθμ. {{ task_dty_code_number }} - {{ task_dty_date|date:"d/m/Y" }} {{ text }}
+			</p>
+
+			{% if spare_parts %}
+			<div style="text-indent: 100px;">
+				<ul style="list-style-type: none;">
+					{% for part in spare_parts %}
+						{% if part != "" %}
+							<li style="font-size: 12pt;">• {{ part }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
+
+			<p>Για τις δικές σας ενέργειες</p>
+
+			<div style="text-align: center;">
+				<p style="margin: 0px;">"Πόλη", {{ tech_date|date:"d/m/Y" }}</p>
+				<p style="margin: 0px;">Με εκτίμηση</p>
+				<p style="margin: 118px;">"Επώνυμο Όνομα"</p>
+			</div>
+
+		</div>
+	</div>
+
+</body>
+</html>

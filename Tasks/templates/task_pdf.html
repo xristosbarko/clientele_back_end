@@ -1,0 +1,151 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Εργασία</title>
+  <style>
+
+  @font-face {
+    font-family: "Calibri";
+    src: url("{{ BASE_DIR }}/clientele/pdf_fonts/calibri.ttf");
+  }
+
+  @font-face {
+    font-family: "Times New Roman";
+    src: url("{{ BASE_DIR }}/clientele/pdf_fonts/times.ttf");
+  }
+
+  @font-face {
+    font-family: "Times New Roman Bold";
+    src: url("{{ BASE_DIR }}/clientele/pdf_fonts/timesbd.ttf");
+  }
+
+  body {
+    font-family: "Times New Roman";
+  }
+
+  .wrapper img {
+    height: 2.04cm;
+    width: 3.93cm;
+  }
+
+  h1 {
+    font-family: "Times New Roman Bold";
+    color: rgb(0, 0, 128);
+    font-size: 12pt;
+    text-align: center;
+  }
+
+  .header12 {
+    font-family: "Calibri";
+    font-size: 12pt;
+    text-align: center;
+  }
+
+  .header10 {
+    font-family: "Calibri";
+    font-size: 10pt;
+    text-align: center;
+  }
+
+  .header9 {
+    font-family: "Calibri";
+    font-size: 9pt;
+    text-align: center;
+  }
+
+  .underline {
+    font-family: "Times New Roman Bold";
+    display: inline;
+  }
+
+  .body p {
+    font-size: 12pt;
+  }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper">
+    <table>
+        <tr>
+          <td><img src="{{ BASE_DIR }}/clientele/images/logo.png" /></td>
+          <td>Επωνυμία</td>
+        </tr>
+    </table>
+
+    <div class="body">
+      {% if status == '1' %}
+         <h1>Δελτίο Παραλαβής Υλικού Προς Έλεγχο No {{ task_id }} / {% now "Y" %}</h1>
+      {% else %}
+        <h1>Δελτίο Τεχνικού Ελέγχου No {{ task_id }} / {% now "Y" %}</h1>
+      {% endif %}
+      <p class="underline" style="margin-bottom: 0px;"><u>ΣΤΟΙΧΕΙΑ ΠΕΛΑΤΗ</u></p>
+      <p style="margin-bottom: 0px;">Επώνυμο: {{ last_name }}</p>
+      <p style="margin-top: 0px; margin-bottom: 0px;">Όνομα: {{ first_name }}</p>
+      {% if phone_number %}
+        <p style="margin-top: 0px; margin-bottom: 0px;">Τηλέφωνο: {{ phone_number }}</p>
+      {% endif %}
+      <p style="margin-bottom: 0px;">Περιγραφή Προβλήματος: {{ report_damage }}</p>
+      {% if status != '1' %}
+        <p style="margin-bottom: 0px;">Ημερομηνία Ανάθεσης: {{ date_assignment|date:"d/m/Y" }}</p>
+        {% if tech_diagnosis %}
+          <p style="margin-bottom: 0px;">Διάγνωση: {{ tech_diagnosis }}</p>
+        {% endif %}
+        {% if last_briefing %}
+          <p style="margin-bottom: 0px;">Τελευταία Ενημέρωση Πελάτη: {{ last_briefing.date|date:"d/m/Y H:i" }}</p>
+        {% endif %}
+        {% if date_completion %}
+          <p style="margin-bottom: 0px;">Ημερομηνία Ολοκλήρωσης: {{ date_completion|date:"d/m/Y H:i" }}</p>
+        {% endif %}
+        {% if spare_parts|first %}
+          <p style="margin-bottom: 0px;">Ανταλλακτικά:</p>
+          <div style="text-indent: 100px;">
+            <ul style="list-style-type: none;">
+              {% for part in spare_parts %}
+                  <li style="font-size: 12pt;">• {{ part }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        <p style="margin-bottom: 0px;">Κόστος Ανταλλακτικών: {{ spare_parts_cost }} &#x20AC;</p>
+        <p style="margin-top: 0px; margin-bottom: 0px;">Κόστος Εργασίας: {{ task_cost }} &#x20AC;</p>
+        <p style="margin-bottom: 0px;">Συνολικό Κόστος: {{ total_cost }} &#x20AC;</p>
+        {% if status != '1' %}
+          <div style="margin-top: 50px;">
+            <div class="header10" style="margin-left: 500px;">Ο Τεχνικός</div>
+            <div class="header10" style="margin-left: 500px; margin-top: 70px;">{{ tech_id }}</div>
+          </div>
+        {% endif %}
+      {% endif %}
+      {% if status == '1' %}
+        <div class="header10" style="margin-left: 500px;">"Πόλη", {% now "d/m/Y" %}</div>
+        <div class="header10" style="margin-left: 500px;">Υπογραφή Πελάτη</div>
+        <p style="margin-top: 110px;font-size: 9pt;">Με την πάροδο των έξι (6) μηνών από την ενημέρωση ο εξοπλισμός - υλικό θα αποστέλλεται προς ανακύκλωση χωρίς περαιτέρω ενημέρωση.</p>
+
+        <pdf:nextpage />
+        
+        <table>
+            <tr>
+              <td><img src="{{ BASE_DIR }}/clientele/images/logo.png" /></td>
+              <td>Επωνυμία</td>
+            </tr>
+        </table>
+
+
+        <h1>Δελτίο Παραλαβής Υλικού Προς Έλεγχο No {{ task_id }}</h1>
+        <p class="underline" style="margin-bottom: 0px;"><u>ΣΤΟΙΧΕΙΑ ΠΕΛΑΤΗ</u></p>
+        <p style="margin-bottom: 0px;">Επώνυμο: {{ last_name }}</p>
+        <p style="margin-top: 0px; margin-bottom: 0px;">Όνομα: {{ first_name }}</p>
+        <p style="margin-top: 0px; margin-bottom: 0px;">Τηλέφωνο: {{ phone_number }}</p>
+        <p style="margin-bottom: 0px;">Περιγραφή προβλήματος: {{ report_damage }}</p>
+
+        <div class="header10" style="margin-left: 500px;">"Πόλη", {% now "d/m/Y" %}</div>
+        <div class="header10" style="margin-left: 500px;">Υπογραφή Τεχνικού</div>
+
+        <p style="margin-top: 110px; font-size: 9pt;">Με την πάροδο των έξι (6) μηνών από την ενημέρωση ο εξοπλισμός - υλικό θα αποστέλλεται προς ανακύκλωση χωρίς περαιτέρω ενημέρωση.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</body>
+</html>
