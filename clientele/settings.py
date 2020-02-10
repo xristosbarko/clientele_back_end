@@ -25,7 +25,7 @@ SECRET_KEY = '%(*t+a#_+4kln(w+7l4$iv-aohk%(@4!tp5-kp&d+rxy4rvyuk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'clientele-back-end.herokuapp.com']
+ALLOWED_HOSTS = ['clientele-back-end.herokuapp.com']
 
 
 # Application definition
@@ -149,11 +149,10 @@ USE_L10N = True
 USE_TZ = True
 
 # CORS
-
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "https://chaoticfailer.github.io",
-]
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = [
+#     ''
+# ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
